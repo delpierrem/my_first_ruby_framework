@@ -5,7 +5,7 @@ class Renderer
   end
 
   def render
-    if File.exists?(@filename)
+    if File.exists ?(@filename)
       [200, result]
     else
       [500, no_template]
@@ -15,14 +15,23 @@ class Renderer
   private
 
   def result
-    ERB.new(template).result(@binding)
+    content = ERB.new(template).result(@binding)
+    insert_in_main_template { content }
   end
 
   def template
     File.read(@filename)
   end
 
+  def insert_in_main_template
+    ERB.new(main_template).result(binding)
+  end
+
+  def main_template
+    File.read('views/layouts/application.html.erb')
+  end
+
   def no_template
-    "<h1>500</h1><p>No such template : #{@filename}</p>"
+    "<h1>500</h1><p>Template inconnu : #{@filename}</p>"
   end
 end
