@@ -2,6 +2,7 @@ require 'yaml'
 require_relative 'renderer'
 require_relative 'routes_builder'
 require_relative 'base_controller'
+require 'erb'
 Dir.glob('controllers/*.rb') { |filename| require_relative("../#{filename}") }
 DB = Sequel.connect('sqlite://db/database.sqlite')
 Dir.glob('models/*.rb') { |filename| require_relative("../#{filename}") }
